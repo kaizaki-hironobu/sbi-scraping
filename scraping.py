@@ -95,14 +95,10 @@ def get_data(ticker_data,data_length=data_length):
         return False
 
 
-    buy_ratio=0
-    sell_ratio=0
-    selling_ratio=0
-    if ticker_code in float_dict:
-        if float_dict[ticker_code]!=0:
-            buy_ratio=datas[-1]["mtb"]*100000/float_dict[ticker_code]*100
-            sell_ratio=datas[-1]["mts"]*100000/float_dict[ticker_code]*100
-            selling_ratio=datas[-1]["selling"]*100000/float_dict[ticker_code]*100
+    # 直近比率は10万株単位で計算（近似値と単位を揃える）
+    buy_ratio = datas[-1]["mtb"]      # 最新の買い残（10万株単位）
+    sell_ratio = datas[-1]["mts"]     # 最新の売り残（10万株単位）
+    selling_ratio = datas[-1]["selling"]  # 最新の信用売り（10万株単位）
 
 
 
