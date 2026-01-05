@@ -6,7 +6,8 @@
       "Read(//Users/kaisakihironobu/Downloads/sbiスクレイピング/**)",
       "Read(//Users/kaisakihironobu/developments/sbiスクレイピング/**)",
       "Bash(source:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
