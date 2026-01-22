@@ -123,7 +123,7 @@ def get_stock_info(ticker_code, output_text):
 
                 revenue_col_index = None
                 for i, header in enumerate(headers_list):
-                    if '売上' in header:
+                    if '売上' in header or '事業収益' in header:
                         revenue_col_index = i
                         break
 
@@ -173,7 +173,7 @@ def get_stock_info(ticker_code, output_text):
         if psr is not None:
             zpsr = (psr - psr_mean) / psr_std
 
-        # 適正株価を計算
+        # 適正株価を計算（PERが赤字の場合は計算不可）
         fair_price = None
         if per is not None and psr is not None and current_price is not None:
             per_coefficient = per_mean / per
@@ -190,13 +190,13 @@ def get_stock_info(ticker_code, output_text):
         output_text.insert(tk.END, f"\n【銘柄分析結果】\n")
         output_text.insert(tk.END, f"1. 銘柄コード: {ticker_code}\n")
         output_text.insert(tk.END, f"2. 銘柄名: {company_name if company_name else '取得失敗'}\n")
-        output_text.insert(tk.END, f"3. PER: {per if per else '取得失敗'}\n")
+        output_text.insert(tk.END, f"3. PER: {per if per else '-'}\n")
         output_text.insert(tk.END, f"4. PSR: {psr:.2f}\n" if psr else "4. PSR: 取得失敗\n")
-        output_text.insert(tk.END, f"5. ZPER: {zper:.2f} (基準: PER={per_mean}, 標準偏差={per_std})\n" if zper is not None else "5. ZPER: 取得失敗\n")
+        output_text.insert(tk.END, f"5. ZPER: {zper:.2f} (基準: PER={per_mean}, 標準偏差={per_std})\n" if zper is not None else "5. ZPER: 算出不可\n")
         output_text.insert(tk.END, f"6. ZPSR: {zpsr:.2f} (基準: PSR={psr_mean}, 標準偏差={psr_std})\n" if zpsr is not None else "6. ZPSR: 取得失敗\n")
-        output_text.insert(tk.END, f"7. PER,PSRから計算した適正株価: {fair_price:.2f}円\n" if fair_price is not None else "7. PER,PSRから計算した適正株価: 取得失敗\n")
+        output_text.insert(tk.END, f"7. PER,PSRから計算した適正株価: {fair_price:.2f}円\n" if fair_price is not None else "7. PER,PSRから計算した適正株価: 算出不可\n")
         output_text.insert(tk.END, f"8. 足元の株価: {current_price:.2f}円\n" if current_price is not None else "8. 足元の株価: 取得失敗\n")
-        output_text.insert(tk.END, f"9. 変化率: {change_rate:+.2f}%\n" if change_rate is not None else "9. 変化率: 取得失敗\n")
+        output_text.insert(tk.END, f"9. 変化率: {change_rate:+.2f}%\n" if change_rate is not None else "9. 変化率: 算出不可\n")
         output_text.insert(tk.END, f"{'='*60}\n\n")
         output_text.see(tk.END)
 
