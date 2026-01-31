@@ -44,7 +44,7 @@ def get_market_segment(ticker_code):
 
                             # 市場区分をマッピング
                             if '東証PRM' in market_text or '東証1部' in market_text:
-                                return 'プレミアム'
+                                return 'プライム'
                             elif '東証STD' in market_text or '東証2部' in market_text:
                                 return 'スタンダード'
                             elif '東証GRT' in market_text or '東証JQS' in market_text:
