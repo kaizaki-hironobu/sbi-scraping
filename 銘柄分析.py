@@ -336,7 +336,23 @@ if __name__ == "__main__":
                 with open(csv_filename, "w", encoding="utf-8", newline="") as f:
                     writer = csv.DictWriter(f, fieldnames=["銘柄コード", "銘柄名", "市場区分", "PER", "PSR", "ZPER", "ZPSR", "適正株価", "現在株価", "変化率"])
                     writer.writeheader()
-                    writer.writerows(results)
+
+                    # データをフォーマットして出力
+                    for result in results:
+                        formatted_result = {
+                            "銘柄コード": result.get("銘柄コード", ""),
+                            "銘柄名": result.get("銘柄名") if result.get("銘柄名") else "取得失敗",
+                            "市場区分": result.get("市場区分") if result.get("市場区分") else "取得失敗",
+                            "PER": f"{result['PER']:.2f}" if result.get("PER") is not None else "赤字",
+                            "PSR": f"{result['PSR']:.2f}" if result.get("PSR") is not None else "取得失敗",
+                            "ZPER": f"{result['ZPER']:.2f}" if result.get("ZPER") is not None else "取得失敗",
+                            "ZPSR": f"{result['ZPSR']:.2f}" if result.get("ZPSR") is not None else "取得失敗",
+                            "適正株価": f"{result['適正株価']:.2f}" if result.get("適正株価") is not None else "取得失敗",
+                            "現在株価": f"{result['現在株価']:.2f}" if result.get("現在株価") is not None else "取得失敗",
+                            "変化率": f"{result['変化率']:+.2f}%" if result.get("変化率") is not None else "取得失敗"
+                        }
+                        writer.writerow(formatted_result)
+
                 print(f"\n{len(results)}件のデータを {csv_filename} に保存しました。\n")
             except Exception as e:
                 print(f"エラー: CSV保存に失敗しました - {e}")
