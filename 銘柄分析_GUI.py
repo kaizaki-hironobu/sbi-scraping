@@ -190,8 +190,8 @@ def get_stock_info(ticker_code, output_text):
                         if len(cells) > revenue_col_index:
                             revenue_text = cells[revenue_col_index].get_text().strip()
 
-                            # '-'やハイフンのみの場合はスキップ
-                            if revenue_text == '-' or revenue_text == '':
+                            # '-'やハイフンのみ、または'0'の場合はスキップ
+                            if revenue_text == '-' or revenue_text == '' or revenue_text == '0':
                                 continue
 
                             match = re.search(r'([0-9.]+)兆', revenue_text)
@@ -206,6 +206,14 @@ def get_stock_info(ticker_code, output_text):
                                     oku = float(re.sub(',', '', oku_str))
                                     revenue = int(oku * 100000000)
                                     break
+                                else:
+                                    # 百万単位に対応
+                                    match = re.search(r'([0-9,]+)百万', revenue_text)
+                                    if match:
+                                        hyakuman_str = match.group(1)
+                                        hyakuman = float(re.sub(',', '', hyakuman_str))
+                                        revenue = int(hyakuman * 1000000)
+                                        break
 
                     if market_cap and revenue and revenue > 0:
                         psr = market_cap / revenue
@@ -263,10 +271,10 @@ def get_stock_info(ticker_code, output_text):
             total_coefficient = math.sqrt(per_coefficient * psr_coefficient)
             fair_price = current_price * total_coefficient
 
-        # 変化率を計算
+        # 変化率を計算（適正株価に対して現在株価がどれだけ乖離しているか）
         change_rate = None
-        if fair_price is not None and current_price is not None and current_price > 0:
-            change_rate = ((fair_price - current_price) / current_price) * 100
+        if fair_price is not None and current_price is not None and fair_price > 0:
+            change_rate = ((current_price - fair_price) / fair_price) * 100
 
         # 結果を表示
         output_text.insert(tk.END, f"\n【銘柄分析結果】\n")
@@ -352,7 +360,22 @@ def on_save_csv_click():
         with open(csv_filename, "w", encoding="utf-8", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["銘柄コード", "銘柄名", "市場区分", "PER", "PSR", "ZPER", "ZPSR", "適正株価", "現在株価", "変化率"])
             writer.writeheader()
-            writer.writerows(analysis_results)
+
+            # 各結果を処理してCSVに出力
+            for result in analysis_results:
+                csv_row = {}
+                for key, value in result.items():
+                    if value is None:
+                        # Noneの場合は「-」に変換
+                        csv_row[key] = "-"
+                    elif isinstance(value, float):
+                        # 数値（float）の場合は小数点第2位まで丸める
+                        csv_row[key] = round(value, 2)
+                    else:
+                        # その他（文字列、整数など）はそのまま
+                        csv_row[key] = value
+                writer.writerow(csv_row)
+
         output_text.insert(tk.END, f"\n{len(analysis_results)}件のデータを {csv_filename} に保存しました\n\n")
         output_text.see(tk.END)
     except Exception as e:

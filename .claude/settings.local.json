@@ -18,7 +18,12 @@
       "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/E31382/results\")",
       "Bash(pkill:*)",
       "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/8766\")",
-      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/E03847/results\")"
+      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/E03847/results\")",
+      "Bash(python:*)",
+      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/4596\")",
+      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/E32854/results\")",
+      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/E32854\")",
+      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/4596/chart\")"
     ],
     "deny": [],
     "ask": []
