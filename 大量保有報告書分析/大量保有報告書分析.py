@@ -267,44 +267,23 @@ def get_large_holder_reports(ticker_code, output_text):
             if change_shares_num > 0 and price_change_rate and price_change_rate > 0:
                 signal = '△'
 
-            # 結果を表示
-            output_text.insert(tk.END, f"【{date}】 {institution}\n")
-            output_text.insert(tk.END, f"  ⑤保有割合: {ratio_text}  ", "normal")
+            # 結果を横一列で表示（%と株を除去）
+            ratio_display = ratio_text.replace('%', '')
+            change_ratio_display = (change_ratio_text if change_ratio_text else '0').replace('%', '')
+            shares_display = shares_text.replace('株', '').replace(',', '')
+            change_shares_display = (change_shares_text if change_shares_text else '0').replace('株', '').replace(',', '')
 
-            # ⑥変化率（マイナスは赤）
-            if change_ratio_num < 0:
-                output_text.insert(tk.END, f"⑥変化: {change_ratio_text}\n", "red")
-            else:
-                output_text.insert(tk.END, f"⑥変化: {change_ratio_text if change_ratio_text else '0%'}\n", "normal")
-
-            output_text.insert(tk.END, f"  ⑦保有株数: {shares_text}  ", "normal")
-
-            # ⑧変化数量（マイナスは赤）
-            if change_shares_num < 0:
-                output_text.insert(tk.END, f"⑧変化: {change_shares_text if change_shares_text else '0'}\n", "red")
-            else:
-                output_text.insert(tk.END, f"⑧変化: {change_shares_text if change_shares_text else '0'}\n", "normal")
-
-            # 株価情報
-            if date_price:
-                output_text.insert(tk.END, f"  ⑨当日終値: {date_price:.2f}円  ", "normal")
-            else:
-                output_text.insert(tk.END, f"  ⑨当日終値: データなし  ", "normal")
-
-            if current_price:
-                output_text.insert(tk.END, f"⑩現在終値: {current_price:.2f}円  ", "normal")
-
-            # ⑪株価変化率
+            line = f"{ticker_code},{market_segment}-{company_name},{date},{institution},{ratio_display},{change_ratio_display},"
+            line += f"{shares_display},{change_shares_display},"
+            line += f"{date_price:.2f}," if date_price else "-,"
+            line += f"{current_price:.2f}," if current_price else "-,"
             if price_change_rate is not None:
-                output_text.insert(tk.END, f"⑪変化率: {price_change_rate:+.2f}%  ", "normal")
+                line += f"{price_change_rate:+.2f},"
             else:
-                output_text.insert(tk.END, f"⑪変化率: -  ", "normal")
+                line += "-,"
+            line += f"{signal}\n"
 
-            # ⑫シグナル
-            if signal:
-                output_text.insert(tk.END, f"⑫{signal}", "green")
-
-            output_text.insert(tk.END, f"\n\n", "normal")
+            output_text.insert(tk.END, line, "normal")
             output_text.see(tk.END)
             output_text.update()
 
