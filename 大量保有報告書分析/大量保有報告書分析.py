@@ -289,18 +289,18 @@ def get_large_holder_reports(ticker_code, output_text):
 
             # 結果をリストに保存
             result = {
-                "銘柄コード": ticker_code,
-                "区分-銘柄名": f"{market_segment}-{company_name}",
-                "日付": date,
-                "機関名": institution,
-                "保有割合": ratio_text,
-                "変化率": change_ratio_text if change_ratio_text else '0%',
-                "保有株数": shares_text,
-                "変化株数": change_shares_text if change_shares_text else '0',
-                "当日終値": f"{date_price:.2f}" if date_price else "-",
-                "現在終値": f"{current_price:.2f}" if current_price else "-",
-                "株価変化率": f"{price_change_rate:+.2f}%" if price_change_rate is not None else "-",
-                "シグナル": signal
+                "Code": ticker_code,
+                "Mkt/Name": f"{market_segment}-{company_name}",
+                "Date": date,
+                "Inst": institution,
+                "Pos(%)": ratio_text,
+                "ShortΔ(%)": change_ratio_text if change_ratio_text else '0%',
+                "Pos(sh)": shares_text,
+                "ShortΔ(sh)": change_shares_text if change_shares_text else '0',
+                "Close": f"{date_price:.2f}" if date_price else "-",
+                "Now": f"{current_price:.2f}" if current_price else "-",
+                "Δ(%)": f"{price_change_rate:+.2f}%" if price_change_rate is not None else "-",
+                "Flag": signal
             }
             analysis_results.append(result)
 
@@ -354,8 +354,8 @@ def on_save_csv_click():
     csv_filename = f"{filename}.csv"
     try:
         with open(csv_filename, "w", encoding="utf-8", newline="") as f:
-            fieldnames = ["銘柄コード", "区分-銘柄名", "日付", "機関名", "保有割合", "変化率",
-                         "保有株数", "変化株数", "当日終値", "現在終値", "株価変化率", "シグナル"]
+            fieldnames = ["Code", "Mkt/Name", "Date", "Inst", "Pos(%)", "ShortΔ(%)",
+                         "Pos(sh)", "ShortΔ(sh)", "Close", "Now", "Δ(%)", "Flag"]
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(analysis_results)

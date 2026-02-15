@@ -24,7 +24,10 @@
       "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/E32854/results\")",
       "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/E32854\")",
       "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/4596/chart\")",
-      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/7203\")"
+      "Bash(curl -s -A \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\" \"https://irbank.net/7203\")",
+      "Bash(./venv/bin/pip install:*)",
+      "Bash(./venv/bin/python:*)",
+      "Bash(brew install:*)"
     ],
     "deny": [],
     "ask": []
